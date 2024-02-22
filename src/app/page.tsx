@@ -51,10 +51,12 @@ export default function Home() {
       });
       const data = await response.json();
       console.log(data);
+      setTaskResponse(null);
       router.refresh();
     }
     createTask();
-  }, [taskResponse, listId, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskResponse]);
 
   return (
     <div className="flex w-full max-w-2xl h-full flex-col items-center justify-start gap-10 mx-auto">
