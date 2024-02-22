@@ -3,9 +3,11 @@ import moment from 'moment-timezone';
 
 export async function POST(request: NextRequest) {
   try {
+    
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const currentDate = moment().tz(userTimeZone).format('YYYY-MM-DD');
     const prompt = await request.json();
+
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
