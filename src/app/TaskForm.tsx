@@ -24,14 +24,17 @@ const TaskForm = ({ onSubmit, processing, listId, setListId }) => {
         <Radio value="901401517250">Lars</Radio>
         <Radio value="901401517405">Matt</Radio>
       </RadioGroup>
-      <Textarea
-        label="Enter your task description"
-        placeholder="e.g. Send MAC Meeting Notes to Matt, due tomorrow, urgent"
-        ref={inputRef}
-        value={taskDescription}
-        onChange={(e) => setTaskDescription(e.target.value)}
-        disabled={processing}
-      />
+      <div>
+        <Textarea
+          // label="Enter your task description"
+          placeholder="e.g. Send Meeting Notes, High Priority, due tomorrow, for Chee, is billable"
+          ref={inputRef}
+          value={taskDescription}
+          onChange={(e) => setTaskDescription(e.target.value)}
+          disabled={processing}
+        />
+        <p className="mt-3 italic"><small><strong>Task details can also be shorthand:</strong> "Send Meeting Notes high tomorrow chee billable"</small></p>
+      </div>
       <Button type="submit" isLoading={processing}>Create Task</Button>
     </form>
   );
