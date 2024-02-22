@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 
 
-function convertToUnixTimestamp(dateString) {
+function convertToUnixTimestamp(dateString: string) {
   return new Date(dateString).getTime();
 }
 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "pk_75419250_O48OCULAKRNAERCNX89YAOUPC0PJ85IQ"
+        "Authorization": `${process.env.CLICKUP_KEY}`
       },
       body: JSON.stringify({
         name: description,
