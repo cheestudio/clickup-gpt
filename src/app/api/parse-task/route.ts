@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
         messages: [
           {
             role: "system",
-            content: `Given the following task description in natural language - "${prompt.taskDescription}": output the details in JSON format: Task description, client name: Waltz[0], MAC[1], Pivot[2], Chee[3], due_date in YYYY-MM-DD format, assignee: Matt(82265936), Jenica(82266508) or Lars(75419250), and priority: Urgent(1), High(2), Normal (3), Low(4). For properly setting the date, today's date is ${currentDate}. Make sure the JSON format always matches the following example:{ "task_description": "sign up for clickup", "due_date": "2024-02-29", "assignee": { "name": "Lars", "id": 75419250 }, "priority": { "level": "High", "id": 2 }"client_name": { "name": "MAC", "id": 1 } }.`
+            content: `Given the following task description in natural language - "${prompt.taskDescription}": output the details in JSON format: Task description, client name: Waltz[0], MAC[1], Pivot[2], Chee[3], due_date in YYYY-MM-DD format, assignee: Matt(82265936), Jenica(82266508) or Lars(75419250), and priority: Urgent(1), High(2), Normal (3), Low(4). If no priority is set, set it to Normal. If no Client is set, set it to Chee. For properly setting the date, today's date is ${currentDate}. Make sure the JSON format always matches the following example:{ "task_description": "sign up for clickup", "due_date": "2024-02-29", "assignee": { "name": "Lars", "id": 75419250 }, "priority": { "level": "High", "id": 2 }"client_name": { "name": "Chee", "id": 3 } }.`
           },
           {
             role: "user",

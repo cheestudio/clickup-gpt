@@ -1,7 +1,7 @@
 {
-  "short_name": "React Boilerplate App",
-  "name": "React Boilerplate App",
-  "description": "A PWA boilerplate/reference application in React",
+  "short_name": "Clickup GPT",
+  "name": "Clickup GPT",
+  "description": "OpenAI GPT-powered Clickup Task Generator",
   "icons": [
     {
       "src": "/vercel-icon-192x192.png",
@@ -20,6 +20,6 @@
   "background_color": "#FFFFFF",
   "display": "standalone",
   "scope": "/",
-  "theme_color": "#6850ff",
+  "theme_color": "#353535",
   "orientation": "portrait"
 }

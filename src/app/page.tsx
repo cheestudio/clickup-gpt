@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
-import { Input, Button, Textarea } from "@nextui-org/react";
+import { Button, Textarea, RadioGroup, Radio } from "@nextui-org/react";
+import TaskForm from "./TaskForm";
+import TaskDetails from "./TaskDetails";
 
 export default function Home() {
 
-  const inputRef = useRef(null);
-  const [taskDescription, setTaskDescription] = useState("");
+  const router = useRouter();
   const [processing, setProcessing] = useState(false);
   const [taskResponse, setTaskResponse] = useState(null);
+  const [listId, setListId] = useState("901401517250");
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleFormSubmit = async (taskDescription) => {
     setProcessing(true);
     try {
       const response = await fetch("/api/parse-task", {
@@ -22,7 +24,7 @@ export default function Home() {
         },
         body: JSON.stringify({ taskDescription }),
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -30,54 +32,44 @@ export default function Home() {
       const data = await response.json();
       const content = JSON.parse(data.choices[0].message.content);
       setTaskResponse(content);
-      console.log(content);
     } catch (error) {
       console.error('Error:', error);
     } finally {
       setProcessing(false);
-      setTaskDescription('');
     }
   }
   useEffect(() => {
     const createTask = async () => {
-      if(!taskResponse) return;
+      if (!taskResponse) return;
+      const listResponse = { ...taskResponse, listId: listId };
       const response = await fetch("/api/create-task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ taskResponse }),
+        body: JSON.stringify({ listResponse }),
       });
       const data = await response.json();
       console.log(data);
+      router.refresh();
     }
     createTask();
-  }, [taskResponse]);
+  }, [taskResponse, listId, router]);
 
   return (
     <div className="flex w-full max-w-2xl h-full flex-col items-center justify-start gap-10 mx-auto">
       <div className="w-full pt-24">
-        <form onSubmit={handleFormSubmit} className="grid gap-10 mb-10">
-          <Textarea
-            label="Enter your task description"
-            labelPlacement="outside"
-            placeholder="e.g. Send MAC Meeting Notes to Matt, due tomorrow, urgent"
-            type="text"
-            ref={inputRef}
-            value={taskDescription}
-            onChange={(e) => setTaskDescription(e.target.value)}
-            disabled={processing}
-          />
-          <Button type="submit" isLoading={processing}>Create Task</Button>
-        </form>
 
-        <div>
-          <p><strong>Task Description:</strong> {taskResponse?.task_description}</p>
-          <p><strong>Due Date:</strong> {taskResponse?.due_date}</p>
-          <p><strong>Priority:</strong> {taskResponse?.priority?.id}</p>
-          <p><strong>Assignee:</strong> {taskResponse?.assignee?.id}</p>
-          <p><strong>Client:</strong> {taskResponse?.client_name?.name}</p>
-        </div>
+        <TaskForm
+          onSubmit={handleFormSubmit}
+          processing={processing}
+          listId={listId}
+          setListId={setListId}
+        />
+
+        {taskResponse && (
+          <TaskDetails taskResponse={taskResponse} listId={listId} />
+        )}
 
       </div>
     </div>

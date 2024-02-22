@@ -11,12 +11,13 @@ export async function POST(request: NextRequest) {
 
   try {
 
-    const listId = '901401517250';
-    const due_date = data.taskResponse.due_date;
-    const assignee = data.taskResponse.assignee ? data.taskResponse.assignee.id : 75419250;
-    const client = data.taskResponse.client_name ? data.taskResponse.client_name.id : 3;
-    const priority = data.taskResponse.priority ? data.taskResponse.priority.id : 2;
-    const description = data.taskResponse.task_description;
+    console.log(data);
+    const listId = data.listResponse.listId;
+    const due_date = data.listResponse.due_date;
+    const assignee = data.listResponse.assignee.id;
+    const client = data.listResponse.client_name ? data.listResponse.client_name.id : 3;
+    const priority = data.listResponse.priority ? data.listResponse.priority.id : 2;
+    const description = data.listResponse.task_description;
 
     const clickupResponse = await fetch(`https://api.clickup.com/api/v2/list/${listId}/task`, {
       method: "POST",
