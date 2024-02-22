@@ -7,6 +7,8 @@ export async function POST(request: NextRequest) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const currentDate = moment().tz(userTimeZone).format('YYYY-MM-DD');
     const prompt = await request.json();
+    console.log(currentDate);
+    console.log('prompt',prompt);
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -19,18 +21,22 @@ export async function POST(request: NextRequest) {
         messages: [
           {
             role: "system",
-            content: `Given the following task description in natural language - "${prompt.taskDescription}": output the details in JSON format: Task description, client name: Waltz[0], MAC[1], Pivot[2], Chee[3], due_date in YYYY-MM-DD format, assignee: Matt(82265936), Jenica(82266508) or Lars(75419250), and priority: Urgent(1), High(2), Normal (3), Low(4). If no priority is set, set it to Normal. If no Client is set, set it to Chee. For properly setting the date, today's date is ${currentDate}. Make sure the JSON format always matches the following example:{ "task_description": "sign up for clickup", "due_date": "2024-02-29", "assignee": { "name": "Lars", "id": 75419250 }, "priority": { "level": "High", "id": 2 }"client_name": { "name": "Chee", "id": 3 } }.`
+            content: `Given the following task description in natural language - "${prompt.taskDescription}": output the details in JSON format: Task description, client name: Waltz[0], MAC[1], Pivot[2], Chee[3], due_date in YYYY-MM-DD format, assignee: Matt(82265936), Jenica(82266508) or Lars(75419250), and priority: Urgent(1), High(2), Normal (3), Low(4). If no priority is set, set it to Normal. If no Client is set, set it to Chee. For properly setting the date, today's date is ${currentDate}. If the keyword "billable" is present, assign the "billable" tag. Make sure the JSON format always matches the following example exactly:{ "task_description": "sign up for clickup", "due_date": "2024-02-29", "assignee": { "name": "Lars", "id": 75419250 }, "tags": ["billable"], "priority": { "level": "High", "id": 2 }, "client_name": { "name": "Chee", "id": 3 } }.`
           },
           {
             role: "user",
             content: prompt.taskDescription
           }
         ],
-        max_tokens: 100,
+        max_tokens: 500,
+        temperature: 0,
+        top_p: 1,
+        frequency_penalty: 0.5,
+        presence_penalty: 0
       })
     });
-
     const data = await response.json();
+    console.log(data);
     return NextResponse.json(data);
 
   }

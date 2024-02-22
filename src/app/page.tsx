@@ -30,7 +30,8 @@ export default function Home() {
       }
 
       const data = await response.json();
-      const content = JSON.parse(data.choices[0].message.content);
+      console.log(data);
+      const content = JSON.parse(data?.choices[0].message.content);
       const listResponse = { ...content, listId: listId };
       setTaskResponse(listResponse);
       console.log(listResponse);
