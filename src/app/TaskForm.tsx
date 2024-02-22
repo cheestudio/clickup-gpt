@@ -32,7 +32,7 @@ const TaskForm = ({ onSubmit, processing, listId, setListId }) => {
           value={taskDescription}
           onChange={(e) => setTaskDescription(e.target.value)}
           disabled={processing}
-          required
+          isRequired
         />
         <p className="mt-3 italic"><small><strong>Task details can also be shorthand:</strong> "Send Meeting Notes high tomorrow chee billable"</small></p>
       </div>
