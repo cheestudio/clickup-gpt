@@ -14,7 +14,7 @@ export default function Home() {
   const [taskResponse, setTaskResponse] = useState(null);
   const [listId, setListId] = useState("901401517250");
 
-  const handleFormSubmit = async (taskDescription) => {
+  const handleFormSubmit = async (taskDescription: string) => {
     setProcessing(true);
     try {
       const response = await fetch("/api/parse-task", {
@@ -31,31 +31,31 @@ export default function Home() {
 
       const data = await response.json();
       const content = JSON.parse(data.choices[0].message.content);
-      setTaskResponse(content);
+      const listResponse = { ...content, listId: listId };
+      setTaskResponse(listResponse);
+      console.log(listResponse);
     } catch (error) {
       console.error('Error:', error);
     } finally {
       setProcessing(false);
     }
   }
+
+
   useEffect(() => {
     const createTask = async () => {
       if (!taskResponse) return;
-      const listResponse = { ...taskResponse, listId: listId };
       const response = await fetch("/api/create-task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ listResponse }),
+        body: JSON.stringify({ taskResponse }),
       });
       const data = await response.json();
       console.log(data);
-      setTaskResponse(null);
-      router.refresh();
     }
     createTask();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskResponse]);
 
   return (
