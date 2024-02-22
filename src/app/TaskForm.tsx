@@ -34,7 +34,7 @@ const TaskForm = ({ onSubmit, processing, listId, setListId }) => {
           disabled={processing}
           isRequired
         />
-        <p className="mt-3 italic"><small><strong>Task details can also be shorthand:</strong> "Send Meeting Notes high tomorrow chee billable"</small></p>
+        <p className="mt-3 italic"><small><strong>Task details can also be shorthand:</strong> &quot;Send Meeting Notes high tomorrow chee billable&quot;</small></p>
       </div>
       <Button type="submit" isLoading={processing}>Create Task</Button>
     </form>
