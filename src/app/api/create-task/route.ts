@@ -1,8 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
+import moment from 'moment-timezone';
 
-
-function convertToUnixTimestamp(dateString: string) {
-  return new Date(dateString).getTime();
+function convertDateToUnixTimestamp(dateString) {
+  return moment(dateString, "YYYY-MM-DD").unix() * 1000;
 }
 
 export async function POST(request: NextRequest) {
@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
   const data = await request.json();
 
   try {
-    console.log(data);
     let assignee;
     const listId = data.taskResponse.listId;
     const due_date = data.taskResponse.due_date;
@@ -24,7 +23,7 @@ export async function POST(request: NextRequest) {
     const client = data.taskResponse.client_name ? data.taskResponse.client_name.id : 3;
     const priority = data.taskResponse.priority ? data.taskResponse.priority.id : 2;
     const description = data.taskResponse.task_description;
-
+    console.log('parsed due date',due_date);
     const clickupResponse = await fetch(`https://api.clickup.com/api/v2/list/${listId}/task`, {
       method: "POST",
       headers: {
@@ -33,7 +32,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         name: description,
-        due_date: convertToUnixTimestamp(due_date),
+        due_date: convertDateToUnixTimestamp(due_date),
         priority: priority,
         assignees: [assignee],
         tags: billable,
