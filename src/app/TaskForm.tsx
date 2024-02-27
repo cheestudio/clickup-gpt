@@ -1,15 +1,32 @@
 // TaskForm.js or TaskForm.tsx if using TypeScript
-import { useRef, useState } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import { Button, Textarea, RadioGroup, Radio } from '@nextui-org/react';
 
 const TaskForm = ({ onSubmit, processing, listId, setListId }) => {
+  const taskInfoRef = useRef(null);
+  const taskDescripRef = useRef(null);
+  const [taskInfo, setTaskInfo] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
-  const inputRef = useRef(null);
+
+  // const formReducer = (state, event) => {
+
+  // }
+
+  // const [formState, formDispatch] = useReducer(formReducer, {
+  //   taskInfo: "",
+  //   taskDescription: "",
+  // });
 
   const handleFormSubmit = (e) => {
+    const taskDetails = {
+      taskInfo: taskInfo,
+      taskDescription: taskDescription,
+    }
     e.preventDefault();
-    onSubmit(taskDescription);
-    inputRef.current.value = "";
+    onSubmit(taskDetails);
+    taskInfoRef.current.value = "";
+    taskDescripRef.current.value = "";
+    setTaskInfo("");
     setTaskDescription("");
   };
 
@@ -26,15 +43,23 @@ const TaskForm = ({ onSubmit, processing, listId, setListId }) => {
       </RadioGroup>
       <div>
         <Textarea
-          // label="Enter your task description"
-          placeholder="e.g. Send Meeting Notes, High Priority, due tomorrow, for Chee, is billable"
-          ref={inputRef}
-          value={taskDescription}
-          onChange={(e) => setTaskDescription(e.target.value)}
+          label="Task Details"
+          ref={taskInfoRef}
+          value={taskInfo}
+          onChange={(e) => setTaskInfo(e.target.value)}
           disabled={processing}
           isRequired
         />
-        <p className="mt-3 italic"><small><strong>Task details can also be shorthand:</strong> &quot;Send Meeting Notes high tomorrow chee billable&quot;</small></p>
+        <p className="mt-3 italic mb-1"><small>e.g. Send Meeting Notes, High Priority, due tomorrow, for Chee, is billable</small></p>
+        <p className="mb-5 italic"><small><strong>Task details can also be shorthand:</strong> &quot;Send Meeting Notes high tomorrow chee billable&quot;</small></p>
+        <Textarea
+          label="Task Description (optional)"
+          ref={taskDescripRef}
+          value={taskDescription}
+          onChange={(e) => setTaskDescription(e.target.value)}
+          disabled={processing}
+        />
+        <p className="mt-3 italic mb-1"><small>Optional text to go into the body of the task</small></p>
       </div>
       <Button type="submit" isLoading={processing}>Create Task</Button>
     </form>

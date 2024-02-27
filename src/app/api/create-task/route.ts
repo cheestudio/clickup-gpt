@@ -20,9 +20,10 @@ export async function POST(request: NextRequest) {
       assignee = 82265936;
     }
     const billable = data.taskResponse.tags;
+    const description = data.taskResponse.description;
     const client = data.taskResponse.client_name ? data.taskResponse.client_name.id : 3;
     const priority = data.taskResponse.priority ? data.taskResponse.priority.id : 2;
-    const description = data.taskResponse.task_description;
+    const title = data.taskResponse.task_title;
     console.log('parsed due date',due_date);
     const clickupResponse = await fetch(`https://api.clickup.com/api/v2/list/${listId}/task`, {
       method: "POST",
@@ -31,7 +32,8 @@ export async function POST(request: NextRequest) {
         "Authorization": `${process.env.CLICKUP_KEY}`
       },
       body: JSON.stringify({
-        name: description,
+        name: title,
+        description: description,
         due_date: convertDateToUnixTimestamp(due_date),
         priority: priority,
         assignees: [assignee],

@@ -14,15 +14,16 @@ export default function Home() {
   const [taskResponse, setTaskResponse] = useState(null);
   const [listId, setListId] = useState("901401517250");
 
-  const handleFormSubmit = async (taskDescription: string) => {
+  const handleFormSubmit = async (taskDetails) => {
     setProcessing(true);
+    console.log(taskDetails.taskInfo);
     try {
       const response = await fetch("/api/parse-task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ taskDescription }),
+        body: JSON.stringify(taskDetails.taskInfo),
       });
 
       if (!response.ok) {
@@ -32,7 +33,7 @@ export default function Home() {
       const data = await response.json();
       console.log(data);
       const content = JSON.parse(data?.choices[0].message.content);
-      const listResponse = { ...content, listId: listId };
+      const listResponse = { ...content, listId: listId, description: taskDetails.taskDescription };
       setTaskResponse(listResponse);
       console.log(listResponse);
     } catch (error) {
@@ -61,7 +62,7 @@ export default function Home() {
 
   return (
     <div className="flex w-full max-w-2xl h-full flex-col items-center justify-start gap-10 mx-auto">
-      <div className="w-full pt-24">
+      <div className="w-full pt-24 pb-12">
 
         <TaskForm
           onSubmit={handleFormSubmit}
