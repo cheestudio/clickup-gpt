@@ -61,7 +61,7 @@ export default function Home() {
 
   return (
     <div className="flex w-full max-w-2xl h-full flex-col items-center justify-start gap-10 mx-auto">
-      <div className="w-full pt-24 pb-12">
+      <div className="w-full pt-12 pb-12">
 
         <TaskForm
           onSubmit={handleFormSubmit}
