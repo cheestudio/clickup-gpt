@@ -4,15 +4,9 @@
   "description": "OpenAI GPT-powered Clickup Task Generator",
   "icons": [
     {
-      "src": "/vercel-icon-192x192.png",
+      "src": "/clickupgpt.png",
       "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/vercel-icon-152x152.png",
-      "type": "image/png",
-      "sizes": "512x512",
+      "sizes": "500x500",
       "purpose": "any maskable"
     }
   ],
