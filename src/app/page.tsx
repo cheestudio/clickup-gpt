@@ -12,11 +12,12 @@ export default function Home() {
   const router = useRouter();
   const [processing, setProcessing] = useState(false);
   const [taskResponse, setTaskResponse] = useState(null);
+  const [submitCompleted, setSetSubmitCompleted] = useState(false);
   const [listId, setListId] = useState("901401517250");
 
   const handleFormSubmit = async (taskDetails) => {
+    setSetSubmitCompleted(false);
     setProcessing(true);
-    console.log(taskDetails.taskInfo);
     try {
       const response = await fetch("/api/parse-task", {
         method: "POST",
@@ -31,15 +32,14 @@ export default function Home() {
       }
 
       const data = await response.json();
-      console.log(data);
       const content = JSON.parse(data?.choices[0].message.content);
       const listResponse = { ...content, listId: listId, description: taskDetails.taskDescription };
       setTaskResponse(listResponse);
-      console.log(listResponse);
     } catch (error) {
       console.error('Error:', error);
     } finally {
       setProcessing(false);
+      setSetSubmitCompleted(true);
     }
   }
 
@@ -55,7 +55,6 @@ export default function Home() {
         body: JSON.stringify({ taskResponse }),
       });
       const data = await response.json();
-      console.log(data);
     }
     createTask();
   }, [taskResponse]);
@@ -67,6 +66,8 @@ export default function Home() {
         <TaskForm
           onSubmit={handleFormSubmit}
           processing={processing}
+          setSetSubmitCompleted={setSetSubmitCompleted}
+          submitCompleted={submitCompleted}
           listId={listId}
           setListId={setListId}
         />

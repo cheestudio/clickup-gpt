@@ -1,13 +1,29 @@
-// TaskDetails.js or TaskDetails.tsx if using TypeScript
+import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/react";
+import moment from "moment-timezone";
+
+function formatDateWithMoment(dateString) {
+  return moment(dateString).format('M/D/YYYY');
+}
+
 const TaskDetails = ({ taskResponse, listId }) => (
-  <div className="space-y-2 columns-2">
-    <p><strong>Task Title:</strong> {taskResponse?.task_description}</p>
-    <p><strong>Due Date:</strong> {taskResponse?.due_date}</p>
-    <p><strong>Priority:</strong> {taskResponse?.priority?.id}</p>
-    <p><strong>Assignee:</strong> {taskResponse?.assignee?.id}</p>
-    <p><strong>Client:</strong> {taskResponse?.client_name?.name}</p>
-    <p><strong>List:</strong> {listId === "901401517250" ? "Lars" : "Matt"}</p>
-  </div>
+  <Table aria-label="Task Details">
+    <TableHeader>
+      <TableColumn>Title</TableColumn>
+      <TableColumn>Priority</TableColumn>
+      <TableColumn>Due Date</TableColumn>
+      <TableColumn>Client</TableColumn>
+      <TableColumn>Assignee</TableColumn>
+    </TableHeader>
+    <TableBody>
+      <TableRow>
+        <TableCell>{taskResponse?.task_title}</TableCell>
+        <TableCell>{taskResponse?.priority?.level}</TableCell>
+        <TableCell>{moment(taskResponse?.due_date).format('M/D/YYYY')}</TableCell>
+        <TableCell>{taskResponse?.client_name?.name}</TableCell>
+        <TableCell>{listId === "901401517250" ? "Lars" : "Matt"}</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
 );
 
 export default TaskDetails;
