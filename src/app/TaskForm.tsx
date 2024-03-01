@@ -8,6 +8,7 @@ import moment from 'moment-timezone';
 const TaskForm = ({ onSubmit, processing, listId, setListId, submitCompleted, setSetSubmitCompleted }) => {
 
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const currentDate = moment().tz(userTimeZone).format('YYYY-MM-DD');
 
   const taskInfoRef = useRef(null);
   const taskDescripRef = useRef(null);
@@ -19,7 +20,7 @@ const TaskForm = ({ onSubmit, processing, listId, setListId, submitCompleted, se
     const taskDetails = {
       taskInfo: taskInfo,
       taskDescription: taskDescription,
-      userTimeZone: userTimeZone,
+      currentDate: currentDate,
     }
     e.preventDefault();
     onSubmit(taskDetails);
@@ -27,8 +28,6 @@ const TaskForm = ({ onSubmit, processing, listId, setListId, submitCompleted, se
 
   useEffect(() => {
     if (submitCompleted) {
-      taskInfoRef.current.value = "";
-      taskDescripRef.current.value = "";
       setTaskInfo("");
       setTaskDescription("");
     }
@@ -65,7 +64,9 @@ const TaskForm = ({ onSubmit, processing, listId, setListId, submitCompleted, se
         />
         <p className="mt-2 italic mb-0"><small>Optional text to go into the body of the task</small></p>
       </div>
-      <Button type="submit" isLoading={processing}>Create Task</Button>
+      <Button type="submit" isLoading={processing}>
+        {processing ? 'Processing...' : 'Create Task'}
+      </Button>
     </form>
   );
 };

@@ -1,5 +1,4 @@
 import { NextResponse, NextRequest } from "next/server";
-import moment from 'moment-timezone';
 
 export async function POST(request: NextRequest) {
   try {
@@ -7,8 +6,7 @@ export async function POST(request: NextRequest) {
 
     const response = await request.json();
     const prompt = response.taskInfo;
-    const userTimeZone = response.userTimeZone;
-    const currentDate = moment().tz(userTimeZone).format('YYYY-MM-DD');
+    const currentDate = response.currentDate;
     console.log('currentDate', currentDate);
     const oiaResponse = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
