@@ -6,7 +6,6 @@ export async function POST(request: NextRequest) {
     const response = await request.json();
     const prompt = response.taskInfo;
     const currentDate = response.currentDate;
-    console.log('currentDate', currentDate);
     const oiaResponse = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -33,7 +32,6 @@ export async function POST(request: NextRequest) {
       })
     });
     const data = await oiaResponse.json();
-    console.log('GPT Data', data.choices[0].message.content);
     return NextResponse.json(data);
 
   }
