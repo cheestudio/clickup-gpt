@@ -1,8 +1,12 @@
 // TaskForm.js or TaskForm.tsx if using TypeScript
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { Button, Textarea, RadioGroup, Radio } from '@nextui-org/react';
+import moment from 'moment-timezone';
 
 const TaskForm = ({ onSubmit, processing, listId, setListId, submitCompleted, setSetSubmitCompleted }) => {
+
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   const taskInfoRef = useRef(null);
   const taskDescripRef = useRef(null);
   const [taskInfo, setTaskInfo] = useState("");
@@ -13,6 +17,7 @@ const TaskForm = ({ onSubmit, processing, listId, setListId, submitCompleted, se
     const taskDetails = {
       taskInfo: taskInfo,
       taskDescription: taskDescription,
+      userTimeZone: userTimeZone,
     }
     e.preventDefault();
     onSubmit(taskDetails);

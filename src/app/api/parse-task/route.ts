@@ -4,13 +4,13 @@ import moment from 'moment-timezone';
 export async function POST(request: NextRequest) {
   try {
     
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    
+    const response = await request.json();
+    const prompt = response.taskInfo;
+    const userTimeZone = response.userTimeZone;
     const currentDate = moment().tz(userTimeZone).format('YYYY-MM-DD');
 
-    const prompt = await request.json();
-    console.log('prompt',prompt);
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const oiaResponse = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
         presence_penalty: 0
       })
     });
-    const data = await response.json();
+    const data = await oiaResponse.json();
     console.log('GPT Data', data.choices[0].message.content);
     return NextResponse.json(data);
 

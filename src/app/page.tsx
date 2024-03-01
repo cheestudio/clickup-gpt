@@ -24,7 +24,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(taskDetails.taskInfo),
+        body: JSON.stringify(taskDetails),
       });
 
       if (!response.ok) {
