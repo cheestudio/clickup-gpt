@@ -1,3 +1,5 @@
+"use client";
+
 // TaskForm.js or TaskForm.tsx if using TypeScript
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { Button, Textarea, RadioGroup, Radio } from '@nextui-org/react';
@@ -21,10 +23,7 @@ const TaskForm = ({ onSubmit, processing, listId, setListId, submitCompleted, se
     }
     e.preventDefault();
     onSubmit(taskDetails);
-
-
   };
-
 
   useEffect(() => {
     if (submitCompleted) {
