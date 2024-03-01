@@ -1,9 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
+  
   try {
-
-
     const response = await request.json();
     const prompt = response.taskInfo;
     const currentDate = response.currentDate;

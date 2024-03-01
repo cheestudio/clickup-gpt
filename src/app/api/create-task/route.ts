@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
     const priority = data.taskResponse.priority ? data.taskResponse.priority.id : 2;
     const title = data.taskResponse.task_title;
     console.log('parsed due date',due_date);
+    console.log('unixClickup',convertDateToUnixTimestamp(due_date));
     const clickupResponse = await fetch(`https://api.clickup.com/api/v2/list/${listId}/task`, {
       method: "POST",
       headers: {
