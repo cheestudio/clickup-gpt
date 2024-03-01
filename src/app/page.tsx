@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import moment from "moment-timezone";
 
 import { Button, Textarea, RadioGroup, Radio } from "@nextui-org/react";
 import TaskForm from "./TaskForm";
@@ -14,6 +15,7 @@ export default function Home() {
   const [taskResponse, setTaskResponse] = useState(null);
   const [submitCompleted, setSetSubmitCompleted] = useState(false);
   const [listId, setListId] = useState("901401517250");
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const handleFormSubmit = async (taskDetails) => {
     setSetSubmitCompleted(false);
@@ -33,7 +35,7 @@ export default function Home() {
 
       const data = await response.json();
       const content = JSON.parse(data?.choices[0].message.content);
-      const listResponse = { ...content, listId: listId, description: taskDetails.taskDescription };
+      const listResponse = { ...content, listId: listId, description: taskDetails.taskDescription, userTimeZone: userTimeZone};
       setTaskResponse(listResponse);
     } catch (error) {
       console.error('Error:', error);
@@ -55,6 +57,7 @@ export default function Home() {
         body: JSON.stringify({ taskResponse }),
       });
       const data = await response.json();
+      console.log(data);
     }
     createTask();
   }, [taskResponse]);
