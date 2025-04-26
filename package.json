@@ -9,6 +9,7 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
     "@nextui-org/react": "2.2.9",
     "framer-motion": "10.18.0",
     "moment-timezone": "^0.5.45",
