@@ -34,7 +34,8 @@ export default function Home() {
       }
 
       const data = await response.json();
-      const content = JSON.parse(data?.choices[0].message.content);
+      console.log(data.content[0].text);
+      const content = JSON.parse(data.content[0].text);
       const listResponse = { ...content, listId: listId, description: taskDetails.taskDescription, userTimeZone: userTimeZone};
       setTaskResponse(listResponse);
     } catch (error) {
