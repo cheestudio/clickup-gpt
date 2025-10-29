@@ -29,14 +29,14 @@ export default function Home() {
         body: JSON.stringify(taskDetails),
       });
 
+			
       if (!response.ok) {
-        throw new Error('Failed to fetch data');
+				throw new Error('Failed to fetch data');
       }
-
+			
       const data = await response.json();
-      console.log(data.content[0].text);
-      const content = JSON.parse(data.content[0].text);
-      const listResponse = { ...content, listId: listId, description: taskDetails.taskDescription, userTimeZone: userTimeZone};
+      const modelContent = JSON.parse(data.content[0].text.replace(/```json/g, '').replace(/```/g, '')	);
+      const listResponse = { ...modelContent, listId: listId, description: taskDetails.taskDescription, userTimeZone: userTimeZone};
       setTaskResponse(listResponse);
     } catch (error) {
       console.error('Error:', error);
