@@ -1,8 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import moment from 'moment-timezone';
 
-
-
 export async function POST(request: NextRequest) {
 
   const data = await request.json();
@@ -14,7 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     let assignee;
     const listId = data.taskResponse.listId;
-    if(listId === '901401517250'){
+    if(listId === '901413637846'){
       assignee = 75419250;      
     }
     else {
