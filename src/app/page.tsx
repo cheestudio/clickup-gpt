@@ -81,7 +81,7 @@ export default function Home() {
         )}
 
       </div>
-      <div className="version absolute bottom-2 right-2 text-sm">v1.8</div>
+      <div className="version absolute bottom-2 right-2 text-sm">v1.9</div>
     </div>
   );
 }
