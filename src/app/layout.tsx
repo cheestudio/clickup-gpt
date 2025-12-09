@@ -34,7 +34,7 @@ export default function RootLayout({
           <main
             className={`flex flex-col h-svh text-foreground bg-background ${inter.variable} font-sans`}
           >
-            <AppNavBar />
+      
             <div className="container mx-auto flex-1">{children}</div>
           </main>
         </Providers>
